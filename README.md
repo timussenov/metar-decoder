@@ -38,7 +38,7 @@ Input:
 UAII 251200Z 27005MPS 9999 FEW030 15/05 Q1013
 
 Output: 
-
+```text
 === DECODED METAR REPORT ===
 Airport: Shymkent International Airport (UAII)
 Time: Day 25 at 12:00 UTC
@@ -46,9 +46,9 @@ Wind: 270 degrees at 5 MPS
 Temperature: 15°C / Dew point: 5°C
 Pressure: 1013 hPa
 ============================
+```
 
-
-Future Roadmap
+## Future Roadmap
 
     [ ] Integration with a live Weather API using libcurl.
 
@@ -58,10 +58,11 @@ Future Roadmap
 
     [ ] Web interface using a C-based micro-webserver.
 
-License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-Author: Timur
-
-Law Student at Shymkent University | Aspiring Pilot | CS50 Student
+##Author
+**Timur Ussenov**
+Law Student at Shymkent University 
+ Aspiring Pilot | CS50 Student
