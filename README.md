@@ -62,7 +62,7 @@ Pressure: 1013 hPa
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-##Author
+## Author
 **Timur Ussenov**
 Law Student at Shymkent University 
  Aspiring Pilot | CS50 Student
