@@ -35,7 +35,9 @@ After building the project, you can run the decoder by passing a METAR string as
 ## Usage Example
 
 Input:
+```text
 UAII 251200Z 27005MPS 9999 FEW030 15/05 Q1013
+```
 
 Output: 
 ```text
