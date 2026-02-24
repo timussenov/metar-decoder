@@ -23,12 +23,14 @@ The project follows a professional C-project structure:
 To compile the project, ensure you have `gcc` and `make` installed, then run:
 ```bash
 make
-
+```
 ## How to Run
 
 After building the project, you can run the decoder by passing a METAR string as an argument:
 
+```bash
 ./bin/metar_decoder "UAII 251200Z 27005MPS 9999 FEW030 15/05 Q1013"
+```
 
 ## Usage Example
 
@@ -63,4 +65,3 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 Author: Timur
 
 Law Student at Shymkent University | Aspiring Pilot | CS50 Student
-
