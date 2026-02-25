@@ -11,33 +11,53 @@ typedef struct
 }MetarData;
 
 int correct_input(int argc, char *argv[]);
-int icao_valid(char *s);
-int time_valid(char *t);
-
+int icao_validation(char *airport);
+int time_validation(char *date);
 
 int main(int argc, char *argv[])
 {
-    if (correct_input(argc, argv) == 1)
+    int ci = correct_input(argc, argv);                   
+    if (ci == 1)
     {
         printf("Usage: %s \"METAR_STRING\"\n", argv[0]);
         return 1;
     }
-    printf("Received METAR %s\n", argv[1]);
-    if (icao_valid(argv[1]) == 1)
+    char buffer [256];
+    strncpy(buffer, argv[1], sizeof(buffer));
+    buffer[255] = '\0';
+    char *icao = strtok(buffer, " ");
+    char *time = strtok(NULL, " ");
+    char *wind = strtok(NULL, " ");
+    char *visibility = strtok(NULL, " ");
+    char *clouds = strtok(NULL, " ");
+    char *temp_dew = strtok(NULL, " ");
+    char *pressure = strtok(NULL, " ");
+    if (!icao || !time)
     {
-        printf("Incorrect ICAO format \n");
+        printf("Invalid METAR structure\n");
         return 1;
     }
-    if (time_valid(argv[1]) == 1)
+
+    if (icao_validation(icao) == 1)
     {
-        printf("Incorrect time format \n");
+        printf("Invalid ICAO format \n");
         return 1;
     }
-    else if (time_valid(argv[1]) == 2)
+
+    int tv = time_validation(time);
+    if (tv == 1)
     {
-        printf("Time format should end with 'Z' \n");
+        printf("Invalid time format \n");
         return 1;
     }
+
+    else if (tv == 2)
+    {
+        printf("Z letter is absent in time string\n");
+        return 1;
+    }
+
+    return 0;
 }
 
 int correct_input(int argc, char *argv[])
@@ -49,30 +69,38 @@ int correct_input(int argc, char *argv[])
     return 0;
 }
 
-int icao_valid(char *s)
+int icao_validation(char *airport)
 {
-    for (int i = 0, n = 4; i < n; i++) 
+     if (strlen(airport) != 4) 
+    {    
+        return 1;
+    }    
+    for (int i = 0,n = 4; i < n; i++)
     {
-        if (!isalpha(s[i]))
+        if (!isalpha(airport[i]))
         {
             return 1;
         }
-    } 
+    }
     return 0;
 }
 
-int time_valid(char *t)
+int time_validation(char *date)
 {
-    int n = 11;
-    for (int i = 5; i < n; i++)
+    if (strlen(date) != 7)
     {
-        if (!isdigit(t[i]))
+        return 1;
+    }
+    
+    int n = 6;
+    for (int i = 0; i < n; i++)
+    {
+        if(!isdigit(date[i]))
         {
             return 1;
         }
-
     }
-    if (toupper(t[n]) != 'Z')
+    if (toupper(date[n]) != 'Z')
     {
         return 2;
     }
