@@ -10,9 +10,12 @@ typedef struct
     //TODO
 }MetarData;
 
+// Validation function prototypes
 int correct_input(int argc, char *argv[]);
 int icao_validation(char *airport);
 int time_validation(char *date);
+int wind_validation(char *wind_data);
+
 
 int main(int argc, char *argv[])
 {
@@ -50,13 +53,33 @@ int main(int argc, char *argv[])
         printf("Invalid time format \n");
         return 1;
     }
-
-    else if (tv == 2)
+    if(tv == 2)
     {
-        printf("Z letter is absent in time string\n");
+        printf("'Z' letter is abscent in time format\n");
         return 1;
     }
-
+    if (tv == 3)
+    {
+        printf("Incomplite time format\n");
+        return 1;
+    }
+    int wv = wind_validation(wind);
+    if (wv == 1)
+    {
+        printf("Wind data are incomplete\n");
+        return 1;
+    }
+    else if (wv == 2)
+    {
+        printf("First 5 characters in wind part must be digits\n");
+        return 1;
+    }
+    else if (wv == 3)
+    {
+        printf("Windspeed unit is not mentioned\n");
+        return 1;
+    }
+    printf("METAR has been succesfully validated\n");
     return 0;
 }
 
@@ -75,7 +98,7 @@ int icao_validation(char *airport)
     {    
         return 1;
     }    
-    for (int i = 0,n = 4; i < n; i++)
+    for (int i = 0; i < 4; i++)
     {
         if (!isalpha(airport[i]))
         {
@@ -87,22 +110,39 @@ int icao_validation(char *airport)
 
 int time_validation(char *date)
 {
-    if (strlen(date) != 7)
-    {
-        return 1;
-    }
-    
-    int n = 6;
-    for (int i = 0; i < n; i++)
+    for (int i = 0; i < 6; i++)
     {
         if(!isdigit(date[i]))
         {
             return 1;
         }
     }
-    if (toupper(date[n]) != 'Z')
+    if (toupper(date[6]) != 'Z')
     {
         return 2;
+    }
+    if (strlen(date) != 7)
+    {
+        return 3;
+    }
+    return 0;
+}
+int wind_validation(char *wind_data)
+{
+    if (strlen(wind_data) < 7)
+    {
+        return 1;
+    }
+    for (int i = 0; i < 5; i++)
+    {
+        if (!isdigit(wind_data[i]))
+        {
+            return 2;
+        }
+    }
+    if (strcmp(&wind_data[5], "KT") != 0 && strcmp(&wind_data[5], "MPS") != 0)
+    {
+        return 3;
     }
     return 0;
 }
