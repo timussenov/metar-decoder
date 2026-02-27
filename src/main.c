@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <ctype.h>
+#include "../include/tokenizer.h"
 
 typedef struct
 {
@@ -19,28 +20,47 @@ int wind_validation(char *wind_data);
 
 int main(int argc, char *argv[])
 {
+    // Command-line input validation
     int ci = correct_input(argc, argv);                   
     if (ci == 1)
     {
         printf("Usage: %s \"METAR_STRING\"\n", argv[0]);
         return 1;
     }
-    char buffer [256];
-    strncpy(buffer, argv[1], sizeof(buffer));
+    // Creating buffer
+    char buffer[256];
+    strncpy(buffer, argv[1], sizeof(buffer) - 1);
     buffer[255] = '\0';
-    char *icao = strtok(buffer, " ");
-    char *time = strtok(NULL, " ");
-    char *wind = strtok(NULL, " ");
-    char *visibility = strtok(NULL, " ");
-    char *clouds = strtok(NULL, " ");
-    char *temp_dew = strtok(NULL, " ");
-    char *pressure = strtok(NULL, " ");
-    if (!icao || !time)
-    {
-        printf("Invalid METAR structure\n");
-        return 1;
-    }
 
+    char *icao = NULL;
+    char *time = NULL;
+    char *wind = NULL;
+    char *visibility = NULL;
+    char *clouds = NULL;
+    char *temp_dew = NULL;
+    char *pressure = NULL;
+
+    // Call tokenizer
+    extract_tokens(
+        buffer, 
+        &icao, 
+        &time, 
+        &wind, 
+        &visibility, 
+        &clouds, 
+        &temp_dew, 
+        &pressure
+    );
+    // Tests tokenization 
+    printf("ICAO: %s\n", icao);
+    printf("Time: %s\n", time);
+    printf("Wind: %s\n", wind);
+    printf("Visibility: %s\n", visibility);
+    printf("Clouds %s\n", clouds);
+    printf("Dew: %s\n", temp_dew);
+    printf("Pressure : %s\n", pressure);
+
+    // Validating return values
     if (icao_validation(icao) == 1)
     {
         printf("Invalid ICAO format \n");
@@ -82,7 +102,7 @@ int main(int argc, char *argv[])
     printf("METAR has been succesfully validated\n");
     return 0;
 }
-
+// Validation functions; To separate from main file
 int correct_input(int argc, char *argv[])
 {
     if (argc != 2)
