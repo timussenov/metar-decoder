@@ -1,4 +1,4 @@
-# METAR Decoder Pro
+# METAR Decoder (С)
 
 ## Overview
 **METAR Decoder Pro** is a high-performance command-line tool written in **C**. It is designed to parse and decode aviation weather reports (METAR) into a human-readable format. This project serves as my **CS50 Final Project** and demonstrates low-level string processing, modular software architecture, and data management.
